@@ -1,0 +1,6 @@
+com\bootcamp\bc37\controllers\PersonApiController.class
+com\bootcamp\bc37\services\PersonService.class
+com\bootcamp\bc37\Bc37Application.class
+com\bootcamp\bc37\repositories\PersonRepository.class
+com\bootcamp\bc37\controllers\PersonController.class
+com\bootcamp\bc37\entities\Person.class
