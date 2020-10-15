@@ -57,30 +57,34 @@ public class PersonService {
     }
     
 //    @Transactional
-    @TransactionScoped
-    public String save(Person person){
+//    @TransactionScoped
+    public Person save(Person person){
         boolean personCheck = getById(person.getId()).isPresent();
-        if (personCheck) {
-            return "cannot update";
-        }
+        Person p = null;
+//        if (personCheck) {
+//            personRepository.save(person);
+//            return "update";
+//        }
         try {
-            personRepository.save(person);
-            return "success";
+            return p = personRepository.save(person);
+//            return "insert";
+//            return true;
         } catch (Exception e) {
             System.out.println(e);
-            return "error";
+//            return "error";
+            return p;
         }
     }
     
-    public void saveAll(){
-        List<Person> persons = new ArrayList<>();
-        persons.add(new Person("P001", "Fikri", "fikriridhwan@gmail.com", "MALE",23));
-        persons.add(new Person("P002", "Iqwal", "iqwal@email.com", "MALE",23));
-        persons.add(new Person("P003", "Nisa", "nisa@email.com", "FEMALE",23));
-        persons.add(new Person("P004", "Zakky", "zakky@email.com", "MALE",23));
-        persons.add(new Person("P005", "Aqira", "aqira.kelana@gmail.com", "MALE",23));
-        System.out.println(personRepository.saveAll(persons).toString());
-    }
+//    public void saveAll(){
+//        List<Person> persons = new ArrayList<>();
+//        persons.add(new Person("P001", "Fikri", "fikriridhwan@gmail.com", "MALE",23));
+//        persons.add(new Person("P002", "Iqwal", "iqwal@email.com", "MALE",23));
+//        persons.add(new Person("P003", "Nisa", "nisa@email.com", "FEMALE",23));
+//        persons.add(new Person("P004", "Zakky", "zakky@email.com", "MALE",23));
+//        persons.add(new Person("P005", "Aqira", "aqira.kelana@gmail.com", "MALE",23));
+//        System.out.println(personRepository.saveAll(persons).toString());
+//    }
     
     public String searchPerson(String key){
         String json = "";
@@ -97,7 +101,10 @@ public class PersonService {
     
     public boolean delete(String id){
         try {
-            personRepository.delete(new Person(id));
+            Person p = getById(id).get();
+            System.out.println(p.toString());
+            personRepository.delete(p);
+            System.out.println(getById(id).get().toString()+" ini test");
             return true;
         } catch (Exception e) {
             return false;

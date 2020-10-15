@@ -1,5 +1,5 @@
 <div th:fragment="save-modal">
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" align="left">
+    <div class="modal fade" id="modalSave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" align="left">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -9,36 +9,36 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST">
+                <form id="saveForm" th:object="${person}">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Id</label>
-                      <input type="text" class="form-control">
+                      <input type="text" id="textId" class ="form-control" th:field="*{id}"  required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Name</label>
-                      <input type="text" class="form-control">
+                        <input type="text" id="textName" class ="form-control" th:field="*{name}"  required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email</label>
-                      <input type="text" class="form-control">
+                        <input type="text" id="textEmail" class ="form-control" th:field="*{email}"  required>
                     </div>    
                     <label>Gender</label>
                     <div class="input-group">
-                        <select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                            <option selected>Choose...</option>
-                            <option value="1">Male</option>
-                            <option value="2">Female</option>
+                        <select class="custom-select" id="optionGender" th:field="*{gender}">
+                            <option selected value="">Choose...</option>
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Age</label>
-                      <input type="number" class="form-control" min="1" value="1">
+                        <input type="number" id="textAge" class="form-control" min="1" value="1" th:field="*{age}">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" form="fromSave">Submit</button>
+              <button type="submit" class="btn btn-primary" onclick="saveData()" >Submit</button>
             </div>
           </div>
         </div>

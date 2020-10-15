@@ -57,9 +57,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter  {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+        http.formLogin().permitAll();
         http.logout().permitAll();
         http.authorizeRequests()
-                .antMatchers("/","index","/register").permitAll()
+//                .antMatchers("/**","index","/register","/save").permitAll()
                 .antMatchers("/trainer").hasAnyRole(ApplicationUserRole.TRAINER.name())
                 .antMatchers("/employee").hasAnyRole(ApplicationUserRole.KARYAWAN.name())
                 .antMatchers("/admin").hasAnyRole(ApplicationUserRole.ADMIN.name())
@@ -67,7 +68,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .authenticated()
                 .and()
                 .httpBasic();
+        http.csrf().disable();
     }
+    
+    
     
     @Override
     @Bean

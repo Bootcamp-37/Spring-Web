@@ -7,7 +7,9 @@ package bootcamp37.testcrud.controllers;
 
 import bootcamp37.testcrud.entities.Person;
 import bootcamp37.testcrud.services.PersonService;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,6 @@ public class PersonApiController {
 
     @GetMapping("")
     public List<Person> getAll() {
-        service.saveAll();
         return service.getAll();
     }
 
@@ -47,15 +48,16 @@ public class PersonApiController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> insert(@RequestBody Person person) {
-        String result = service.save(person);
-        if (result.equals("success")) {
-            return ResponseEntity.ok().body("Insert Berhasil");
-        } else if (result.equals("cannot update")) {
-            return ResponseEntity.status(409).body("Tidak dapat update. data sudah tersedia");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Gagal dimasukkan");
-        }
+    public Person insert(@RequestBody Person person) {
+        Person result = service.save(person);
+//        if (result.equals("insert")) {
+//            return ResponseEntity.ok().body("insert");
+//        } else if (result.equals("update")) {
+//            return ResponseEntity.ok().body("update");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Gagal dimasukkan");
+//        }
+        return result;
     }
     
     @PutMapping("")
@@ -64,8 +66,15 @@ public class PersonApiController {
     }
     
     @DeleteMapping("{id}")
-    public boolean delete(@PathVariable String id){
-        return service.delete(id);
+    public Map<String,String> delete(@PathVariable String id){
+        boolean isSuccess = service.delete(id);
+        Map<String, String> status = new HashMap<>();
+        if (isSuccess) {
+            status.put("status", "200");
+            return status;
+        }else{
+            return status;
+        }
     }
     
 

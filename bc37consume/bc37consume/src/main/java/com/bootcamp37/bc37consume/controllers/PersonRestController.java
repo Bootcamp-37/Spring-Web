@@ -7,13 +7,21 @@ package com.bootcamp37.bc37consume.controllers;
 
 import com.bootcamp37.bc37consume.entities.Person;
 import com.bootcamp37.bc37consume.services.PersonRestService;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -28,22 +36,57 @@ public class PersonRestController {
         this.service = service;
     }
     
-    @GetMapping("")
+//    @GetMapping("")
+    @RequestMapping("")
     public String getAll(Model model){
         model.addAttribute("people", service.getAll());
+        model.addAttribute("person", new Person());
         return "index";
     }
     
-    @GetMapping("/{id}")
-    public String getById(@PathVariable String id){
-        Person p = service.getById(id);
-        return p.toString();
+//    @ResponseBody
+    @GetMapping("/refreshData")
+    public ModelAndView refreshData(Model model){
+        List<Person> persons = service.getAll();
+        ModelAndView mv = new ModelAndView("index::table-person");
+        mv.addObject("table-person",persons);
+        return mv;
     }
     
-    @GetMapping("/register")
-    public String register(Model model){
-        Person person = new Person();
-        model.addAttribute("person", person);
-        return "register";
+    @ResponseBody
+    @GetMapping("/{id}")
+    public Person getById(String id){
+//        System.out.println(id);
+        Person p = service.getById(id);
+        return p;
+    }
+    
+    @ResponseBody
+    @PostMapping("/save")
+    public Map<String, String> save(Person person){
+        Map<String, String> status = new HashMap<>();
+        String hasil = service.save(person);
+        status.put("status", hasil);
+        return status;
+    }
+    
+    @ResponseBody
+    @GetMapping("/delete")
+    public Map<String, String> delete(String id){
+        Map<String, String> status = new HashMap<>();
+        System.out.println(id);
+        service.delete(id);
+        status.put("status", "200");
+        return status;
+    }
+    
+    @GetMapping("/sb2admin")
+    public String test(){
+        return "sb2Admin/index.html";
+    }
+    
+    @GetMapping("/tables")
+    public String sb2admin(){
+        return "tables";
     }
 }

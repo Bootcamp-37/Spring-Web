@@ -28,7 +28,6 @@ public class PersonRestService {
     private String uri;
     
     RestTemplate restTemplate;
-    
 
     @Autowired
     public PersonRestService(RestTemplate restTemplate) {
@@ -47,14 +46,27 @@ public class PersonRestService {
     
     public Person getById(String id){
         Map<String, String> param = new HashMap<>();
-        param.put("id", id);
-        
-        Person result = restTemplate.getForObject(uri + "/{id}", Person.class, param);
-        return result;
+        param.put("id", id);  
+        try {
+            Person result = restTemplate.getForObject(uri + "/{id}", Person.class, param);
+            return result;
+        } catch (Exception e) {
+            return null;
+        }    
     }
     
-    public void save(Person person){
-        Person result = restTemplate.postForObject(uri, person, Person.class);
+    public String save(Person person){
+        if (getById(person.getId()) != null) {
+            restTemplate.put(uri, person, Person.class);
+            return "update";
+        }else{
+            Person result = restTemplate.postForObject(uri, person, Person.class);
+            if (result == null) {
+                return "error";
+            }
+            return "insert";
+        }
+        
     }
     
     public void update(Person person){
