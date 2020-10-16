@@ -6,14 +6,18 @@
 package bootcamp37.testcrud.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,11 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Person.findById", query = "SELECT p FROM Person p WHERE p.id = :id")
     , @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name")
     , @NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.email = :email")
-    , @NamedQuery(name = "Person.findByGender", query = "SELECT p FROM Person p WHERE p.gender = :gender")})
+    , @NamedQuery(name = "Person.findByGender", query = "SELECT p FROM Person p WHERE p.gender = :gender")
+    , @NamedQuery(name = "Person.findByAge", query = "SELECT p FROM Person p WHERE p.age = :age")})
 public class Person implements Serializable {
-
-    @Column(name = "age")
-    private Integer age;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,32 +46,25 @@ public class Person implements Serializable {
     private String email;
     @Column(name = "gender")
     private String gender;
+    @Column(name = "age")
+    private Integer age;
+    @OneToMany(mappedBy = "personId", fetch = FetchType.LAZY)
+    private List<Users> usersList;
 
     public Person() {
+    }
+
+    public Person(String id, String name, String email, String gender, Integer age) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+        this.age = age;
     }
 
     public Person(String id) {
         this.id = id;
     }
-
-    public Person(String id, String name, String email, String gender) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.gender = gender;
-    }
-
-    public Person(String id, String name, String email, String gender,Integer age) {
-        this.age = age;
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.gender = gender;
-    }
-    
-    
-    
-    
 
     public String getId() {
         return id;
@@ -103,6 +98,23 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    @XmlTransient
+    public List<Users> getUsersList() {
+        return usersList;
+    }
+
+    public void setUsersList(List<Users> usersList) {
+        this.usersList = usersList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -125,15 +137,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "ID: "+getId()+", Name: "+ getName()+", Email: "+getEmail()+", Gender: "+getGender()+", Age: "+getAge();
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
+        return "bootcamp37.testcrud.entities.Person[ id=" + id + " ]";
     }
     
 }

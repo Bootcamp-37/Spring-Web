@@ -36,12 +36,32 @@ public class PersonRestController {
         this.service = service;
     }
     
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+    
+    @GetMapping("/test/employee")
+    public String employee(){
+        return "employee";
+    }
+    
+    @GetMapping("/test/trainer")
+    public String trainer(){
+        return "trainer";
+    }
+    
+    @GetMapping("/test/admin")
+    public String admin(){
+        return "admin";
+    }
+    
 //    @GetMapping("")
     @RequestMapping("")
     public String getAll(Model model){
         model.addAttribute("people", service.getAll());
         model.addAttribute("person", new Person());
-        return "index";
+        return "tables";
     }
     
 //    @ResponseBody
@@ -49,7 +69,7 @@ public class PersonRestController {
     public ModelAndView refreshData(Model model){
         List<Person> persons = service.getAll();
         ModelAndView mv = new ModelAndView("index::table-person");
-        mv.addObject("table-person",persons);
+        mv.addObject("people",persons);
         return mv;
     }
     
@@ -84,9 +104,9 @@ public class PersonRestController {
     public String test(){
         return "sb2Admin/index.html";
     }
-    
-    @GetMapping("/tables")
-    public String sb2admin(){
-        return "tables";
-    }
+//    
+//    @GetMapping("/tables")
+//    public String sb2admin(){
+//        return "tables";
+//    }
 }

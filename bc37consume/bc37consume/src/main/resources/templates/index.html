@@ -14,22 +14,30 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <!--<link rel="stylesheet" type="text/css" href="/css/myStyle.css">-->
         <style>
-            .footer {
-                position: fixed;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-                background-color: rgb(59, 178, 237);
-                color: white;
-                text-align: center;
-            }
+           html, body {
+            /* IE 10-11 didn't like using min-height */
+            height: 100%;
+          }
+          body {
+            display: flex;
+            flex-direction: column;
+          }
+          .content {
+            flex: 1 0 auto; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+            padding: 20px;
+          }
+          .footer {
+            background-color: blue;
+            flex-shrink: 0; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+            padding:  55px;
+          }
         </style>
     </head>
     <body>
         <div class="">
-            <div th:include="fragments/navbar::navbar-app"></div>
+            <div th:include="fragments/navbar::navbar-index "></div>
         </div>
-        <div class="container " align="center" >
+        <div class="container content" align="center" >
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSave" onclick="clearModal()" data-dismiss="modal">modal</button>
             <div th:include="fragments/modal::save-modal"></div>
             <div class="table-person">
@@ -62,8 +70,7 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-        <div class="container-fluid footer">
-            <div th:include="fragments/navbar::footer-app"></div>
+        <div class="footer container-fluid">
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>-->
@@ -78,22 +85,6 @@ and open the template in the editor.
                     type:"GET"
                 }).then((result)=>{
                     $('.table-person').html(result);
-                    let table = document.getElementById('personTable');
-                    let row = table.insertRow(1);
-                    let i = 0;
-                    alert(result);
-                    for (var item in result) {
-                        cell = row.insertCell(i);
-                        cell.innerHTML = item.id;
-                        cell.innerHTML = item.name;
-                        cell.innerHTML = item.age;
-                        cell.innerHTML = item.gender;
-                        cell.innerHTML = item.email;
-                        cell.innerHTML = '<button class="btn btn-primary" th:id="${as.id}" data-toggle="modal" data-target="#modalSave" onclick="getData(this.id)" data-dismiss="modal">Update</button>'
-                                +'&nbsp;'+'<button class="btn btn-danger"  th:id="${as.id}" onclick="fDelete(this.id)">Delete</button>';
-                        i++;
-                        row = table.insertRow(i)
-                    }
                 })
             }
             function clearModal(){

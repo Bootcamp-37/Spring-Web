@@ -56,19 +56,11 @@ public class PersonService {
         return false;
     }
     
-//    @Transactional
-//    @TransactionScoped
     public Person save(Person person){
         boolean personCheck = getById(person.getId()).isPresent();
         Person p = null;
-//        if (personCheck) {
-//            personRepository.save(person);
-//            return "update";
-//        }
         try {
             return p = personRepository.save(person);
-//            return "insert";
-//            return true;
         } catch (Exception e) {
             System.out.println(e);
 //            return "error";
@@ -76,15 +68,6 @@ public class PersonService {
         }
     }
     
-//    public void saveAll(){
-//        List<Person> persons = new ArrayList<>();
-//        persons.add(new Person("P001", "Fikri", "fikriridhwan@gmail.com", "MALE",23));
-//        persons.add(new Person("P002", "Iqwal", "iqwal@email.com", "MALE",23));
-//        persons.add(new Person("P003", "Nisa", "nisa@email.com", "FEMALE",23));
-//        persons.add(new Person("P004", "Zakky", "zakky@email.com", "MALE",23));
-//        persons.add(new Person("P005", "Aqira", "aqira.kelana@gmail.com", "MALE",23));
-//        System.out.println(personRepository.saveAll(persons).toString());
-//    }
     
     public String searchPerson(String key){
         String json = "";
