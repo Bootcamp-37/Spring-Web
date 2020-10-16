@@ -1,0 +1,8 @@
+bootcamp37\testcrud\controllers\PersonController.class
+bootcamp37\testcrud\services\PersonService.class
+bootcamp37\testcrud\services\EmailServiceImpl.class
+bootcamp37\testcrud\controllers\PersonApiController.class
+bootcamp37\testcrud\TestcrudApplication.class
+bootcamp37\testcrud\entities\Person.class
+bootcamp37\testcrud\entities\Person_.class
+bootcamp37\testcrud\Repositories\PersonRepository.class

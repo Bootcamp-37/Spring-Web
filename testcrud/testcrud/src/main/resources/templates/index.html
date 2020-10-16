@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>server index HTML</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        
+        <!--<style>-->
+<!--/*            .footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: rgb(59, 178, 237);
+                color: white;
+                text-align: center;
+            }*/-->
+        <!--</style>-->
+    </head>
+    <body>
+        <div></div>
+        <div>Ini table CRUD berbasis Web</div>
+        
+        <div class="table-person">
+                <div fragment="table-person"> 
+                <table border="1" class="table table-striped" id="personTable" >
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr each="as : ${people}">
+                            <td text="${as.id}"></td>
+                            <td text="${as.name}"></td>
+                            <td text="${as.age}"></td>
+                            <td text="${as.gender}"></td>
+                            <td text="${as.email}"></td>
+                            <td>
+                                <button class="btn btn-primary" id="${as.id}" data-toggle="modal" data-target="#modalSave" onclick="getData(this.id)" data-dismiss="modal">Update</button>
+                                <button class="btn btn-danger"  id="${as.id}" onclick="fDelete(this.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+
+    </body>
+</html>
