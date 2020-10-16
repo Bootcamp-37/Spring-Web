@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Test Crud</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--CSS Only-->
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+       
+        <style>
+            .footer {
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: rgb(106, 90, 205);
+                color: white;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div th:include="fragments/navbar::navbar-app"></div>
+        </div>
+        <div class="container" align="center">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >Insert</button>
+            <div th:include="fragments/modal::save-modal"></div>
+        </div>
+                
+        <div class="container" align="center">
+            <table class="table table-striped" id="personTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="as : ${people}">
+                    <td th:text="${as.id}"></td>
+                    <td th:text="${as.name}"></td>
+                    <td th:text="${as.age}"></td>
+                    <td th:text="${as.gender}"></td>
+                    <td th:text="${as.email}"></td>
+                    <td>
+                        <button class="btn btn-success" th:id="${as.id}" data-toggle="modal" data-target="#exampleModal" onclick="getData(this.id)" data-dismiss="modal">Update</button>
+                        <button class="btn btn-danger"  th:id="${as.id}" onclick="funcDelete(this.id)">Delete</button>
+                    </td>
+            
+                </tr>
+            </tbody>
+       </table>
+        </div>
+        
+
+            
+        
+        <div class="container-fluid footer">
+            <div th:include="fragments/navbar::footer-app"></div>
+        </div> 
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>-->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  
+
+    <!-- Scrip Ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+         function getData(getId){
+                $.ajax({
+                    url:"getById",
+                    type:"GET",
+                    dataType:"json",
+                    data:{id:getId}
+                }).then((result)=>{
+                    $("#textId").val(result.id);
+                    $("#textName").val(result.name);
+                    $("#textEmail").val(result.email);
+                    $("#textAge").attr('value',result.age);
+                    $("#optionGender").val(result.gender);
+                })
+            }
+        
+        
+        <!--Fungsi Update-->
+        function update(getId){
+            $.ajax({
+            url: "getById",
+            type:"GET",
+            dataType:"json",
+            data:{id:getId},
+            success: function (result){
+                Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Insert Successfully',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                $("#textId").val(result.id);
+                $("#textName").val(result.name);
+                $("#textEmail").val(result.email);
+                $("#textGender").val(result.gender);
+                $("#textAge").val(result.age);
+                
+            }, error:function(errormessage){
+                alert(errormessage.responseText);
+            }});}
+        
+        <!--Fungsi Delete-->
+        function funcDelete(getId){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+            }).then((result)=>{
+                if (result) {
+                    $.ajax({
+                        url: "delete",
+                        data: {id:getId}
+                    }).then((result)=>{        
+                        if (result.status == "200") {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Delete Successfully',
+                                showConfirmButton: false,
+                                timer: 1500,
+                            });
+                        } 
+                    })
+                }
+            })   
+            
+           }
+           
+        </script>
+        
+
+
+        </body>
+</html>

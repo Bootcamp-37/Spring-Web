@@ -1,0 +1,41 @@
+<div th:fragment="save-modal">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" align="left">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Save</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="saveForm" th:action ="@{/save}" th:object="${person}" method='POST'>
+                    <!--FormModals-->
+                        <label for="exampleInputEmail1">Id</label>
+                        <input type="text" class="form-control" id="textId" value="" th:field="*{id}" />
+                        
+                        <label for="exampleInputEmail1">Name</label>
+                        <input type="text" class="form-control" id="textName" value="" th:field="*{name}" />
+
+                        <label for="exampleInputEmail1">Email</label>
+                        <input type="text" class="form-control" id="textEmail" value="" th:field="*{email}" />
+                        
+                        <label for="exampleInputEmail1">Gender</label>
+                        <select class="custom-select" id="optionGender" aria-label="Example select with button addon" th:field="*{gender}">
+                            <option value="">Choose...</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                        
+                        <label for="exampleInputEmail1">Age</label> 
+                        <input type="number" class="form-control" id="textAge" value=""  th:field="*{age}" ></input>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" form="saveForm" class="btn btn-primary" value="">Submit</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
