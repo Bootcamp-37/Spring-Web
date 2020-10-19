@@ -33,6 +33,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
     
     private final PasswordEncoder passwordEncoder;
     @Autowired
+    
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
@@ -42,15 +43,18 @@ http
 //        (:"/","index","/css/*","/js/*")
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("index1","/css/*","/js/*").permitAll()
+        .antMatchers("/css/*","/js/*").permitAll()
         .antMatchers("/api/admin/*","/api/admin").hasRole(admin.name())
         .antMatchers("/api/trainer/*").hasRole(trainer.name())
 //        .antMatchers(HttpMethod.POST, "/save").hasAuthority(karyawan_write.name())
-        .antMatchers("/save").hasAnyRole(admin.name())
+//        .antMatchers("/save").hasAnyRole(admin.name(), trainer.name(), karyawan.name())
         .anyRequest()
         .authenticated()
+//        .and()
+//        .httpBasic();
         .and()
-        .httpBasic();
+        .formLogin()
+        .loginPage("/login").permitAll();
     }
 
     
@@ -59,17 +63,17 @@ http
     protected UserDetailsService userDetailsService(){
         UserDetails nisaUser= User.builder()
                 .username("nisa")
-                .password(passwordEncoder.encode("passwordnis4"))
+                .password(passwordEncoder.encode("pnis4"))
                 .roles(karyawan.name())
                 .build();
         UserDetails fikriUser= User.builder()
                 .username("fikri")
-                .password(passwordEncoder.encode("passwordfikr1"))
+                .password(passwordEncoder.encode("pfikr1"))
                 .roles(admin.name(),karyawan.name())
                 .build();
            UserDetails aqiraUser= User.builder()
                 .username("aqira")
-                .password(passwordEncoder.encode("passwordaqir4"))
+                .password(passwordEncoder.encode("paqir4"))
                 .roles(admin.name(),karyawan.name(),trainer.name())
                 .build();
         return new InMemoryUserDetailsManager(

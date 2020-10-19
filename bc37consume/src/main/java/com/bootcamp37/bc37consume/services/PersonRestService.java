@@ -38,21 +38,44 @@ public class PersonRestService {
     }
     
     public List<Person> getAll(){
-        ResponseEntity<List<Person>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Person>>(){
+        ResponseEntity<List<Person>> response = restTemplate.exchange(
+                uri, 
+                HttpMethod.GET, 
+                null, 
+                new ParameterizedTypeReference<List<Person>>(){
             
         });
         List<Person> result= response.getBody();
         return  result;
     }
-    public  Person getById (String id){
+    public Person getById (String id){
         //"id":"P001"
         Map<String,String> param = new HashMap<>();
                 param.put("id", id);
-                Person result= restTemplate.getForObject(uri+"/{id}", Person.class,param);
+                try{
+                     Person result= restTemplate.getForObject(uri+"/getById/{id}", Person.class,param);
                 return result;
+                } catch (Exception e){
+                    return null;
+                }
+               
     }
-    public void save (Person person){
-       Person result= restTemplate.postForObject(uri+"/save",person, Person.class);
+//    public void save (Person person){
+//       Person result= restTemplate.postForObject(uri,person, Person.class);
+//    }
+    
+     public String save(Person person){
+        if (getById(person.getId()) != null) {
+            restTemplate.put(uri, person, Person.class);
+            return "update";
+        }else{
+            Person result = restTemplate.postForObject(uri, person, Person.class);
+            if (result == null) {
+                return "error";
+            }
+            return "insert";
+        }
+        
     }
     public void delete (String id){
         Map<String, String> param = new HashMap<>();
