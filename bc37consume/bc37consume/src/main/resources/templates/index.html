@@ -158,7 +158,7 @@ and open the template in the editor.
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!',
             }).then((result)=>{
-                if (result) {
+                if (result.value) {
                     $.ajax({
                         url: "delete",
                         data: {id:pId}
@@ -175,9 +175,6 @@ and open the template in the editor.
                              Swal.fire('Error', 'Failed to Delete', 'error');
                         }
                     })
-                }
-                else{
-                    Swal.fire('Cancel Update', 'Canceling Update', 'error');
                 }
             })   
             
