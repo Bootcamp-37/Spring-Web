@@ -10,7 +10,7 @@ public class TestcrudApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TestcrudApplication.class, args);
-                System.out.println("jalan");
+                System.out.println("server jalan");
 	}
         @Bean
         public RestTemplate getRestTemplate(){
