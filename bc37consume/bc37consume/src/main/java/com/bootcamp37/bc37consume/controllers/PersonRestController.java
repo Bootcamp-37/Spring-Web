@@ -62,7 +62,7 @@ public class PersonRestController {
     }
     
 //    @GetMapping("")
-    @RequestMapping("")
+    @RequestMapping("/")
     public String getAll(Model model){
         model.addAttribute("people", service.getAll());
         model.addAttribute("person", new Person());
