@@ -41,6 +41,11 @@ public class PersonRestController {
         return "login";
     }
     
+    @PostMapping("/login")
+    public String loginAuth(){
+        return "tables";
+    }
+    
     @GetMapping("/test/employee")
     public String employee(){
         return "employee";

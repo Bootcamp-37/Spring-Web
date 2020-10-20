@@ -8,9 +8,12 @@ package com.bootcamp37.bc37consume.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,24 +52,44 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter  {
 ////                "SELECT u.username, r.role FROM userroles ur JOIN user u ON ur.user_id = u.id JOIN role r ON ur.role_id = r.id WHERE u.username = ?");
 //    }
     
-    
+    @Override
+    public void configure (WebSecurity web) throws Exception{
+        web.ignoring().antMatchers("/css/**","/js/**");
+    }
     
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.logout().permitAll();
         http.authorizeRequests()
-                .antMatchers("/static/**").permitAll()
-                .antMatchers("/register","/save").permitAll()
+//                .antMatchers("/resources/static/**").permitAll()
                 .antMatchers("/test/trainer").hasAnyRole(ApplicationUserRole.TRAINER.name())
                 .antMatchers("/test/employee").hasAnyRole(ApplicationUserRole.KARYAWAN.name())
                 .antMatchers("/test/admin").hasAnyRole(ApplicationUserRole.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin()
+                .formLogin() 
                 .loginPage("/login")
-                .permitAll();
-        http.csrf().disable();
+                .successHandler((req,res,auth)->{    //Success handler invoked after successful authentication
+                    for (GrantedAuthority authority : auth.getAuthorities()) {
+                       System.out.println(authority.getAuthority());
+                    }
+                    System.out.println(auth.getName());
+                    res.sendRedirect("/"); // Redirect user to index/home page
+                 })
+                 .failureHandler((req,res,exp)->{  // Failure handler invoked after authentication failure
+                    String errMsg="";
+                    if(exp.getClass().isAssignableFrom(BadCredentialsException.class)){
+                       errMsg="Invalid username or password.";
+                    }else{
+                       errMsg="Unknown error - "+exp.getMessage();
+                    }
+                    req.getSession().setAttribute("message", errMsg);
+                    res.sendRedirect("/login"); // Redirect user to login page with error message.
+                 })
+                .permitAll()
+                .and()
+                .csrf().disable();
     }
     
     
