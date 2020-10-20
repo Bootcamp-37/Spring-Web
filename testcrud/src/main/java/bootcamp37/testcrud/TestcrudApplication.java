@@ -7,16 +7,14 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class TestcrudApplication {
-    @Bean
+
+	public static void main(String[] args) {
+		SpringApplication.run(TestcrudApplication.class, args);
+                System.out.println("Server Jalan");
+	}
+        @Bean
         public RestTemplate getRestTemplate(){
             return new RestTemplate();
         }
-
-	public static void main(String[] args) {
-                
-		SpringApplication.run(TestcrudApplication.class, args);
-                System.out.println("Aplikasi Berjalan");
-                
-	}
 
 }

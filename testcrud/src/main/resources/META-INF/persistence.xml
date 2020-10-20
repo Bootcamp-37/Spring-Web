@@ -4,7 +4,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>bootcamp37.testcrud.entities.Person</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bc37?serverTimezone=UTC&amp;useLegacyDatetimeCode=false"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3406/bc37?serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="b0o7c@mp"/>

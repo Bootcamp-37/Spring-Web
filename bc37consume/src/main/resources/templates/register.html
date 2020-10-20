@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Register</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div align="center">
+            <h1> Register</h1>
+        </div>
+        
+        <form id="formSave" th:action="@{register}" th:object="${person}" method="POST ">
+                <label> Id:</label><input th:field="*{id}" type="text" >
+                <label> Name:</label><input type="text" th:field="*{name}">
+                <label> Email:</label><input type="text" th:field="*{email}">
+                <label> Gender:</label><input type="text" th:field="*{gender}">
+                <label> Age:</label><input type="text" th:field="*{age}">
+            </form>
+        <button type="submit" form="fromSave">Submit</button>
+        
+    </body>
+</html>

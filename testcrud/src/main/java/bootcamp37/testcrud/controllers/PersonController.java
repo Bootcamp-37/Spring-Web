@@ -6,134 +6,77 @@
 package bootcamp37.testcrud.controllers;
 
 import bootcamp37.testcrud.entities.Person;
-import bootcamp37.testcrud.services.PersonServices;
+import bootcamp37.testcrud.services.EmailServiceImpl;
+import bootcamp37.testcrud.services.PersonService;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
- * @author Deo Lahara
+ * @author User
  */
-
-
-//@Controller
-//public class PersonController {
-//    PersonServices service;
-//    SendEmailServices mailservices;
-//    
-//    
-//    @Autowired
-//    public PersonController(PersonServices service, SendEmailServices mailservices) {
-//        this.service = service;
-//        this.mailservices=mailservices;
-//    }
-//    
-//    
-//    @GetMapping("")
-//    public List<Person> getAll(){
-//        service.saveAll();
-//        return service.getAll();
-//    }
-//    
-//    
-//
-//    @GetMapping("{id}")
-//    public Person getById(@PathVariable String id){
-//        return service.getById(id).get();
-//    }
-//        
-//    //Search Keyword
-//    @ResponseBody
-//    @RequestMapping("/search/{keyword}")
-//    public List<Person> search (@PathVariable @Valid String keyword){
-//        return service.search(keyword);
-//    }
-//       
-//    @PostMapping("")
-//    public ResponseEntity<String> insert (@RequestBody Person person){
-//        String result = service.save(person);
-//        if(result.equals("Success")){
-//            return ResponseEntity
-//                    .ok()
-//                    .body("Insert Berhasil");
-//        }
-//        else if(result.equals("Cannot Update")){
-//            return ResponseEntity
-//                    .status(409)
-//                    .body("Tidak dapat update, silahkan menggunakan method lain ");
-//        }
-//    return ResponseEntity
-//            .status(HttpStatus.BAD_GATEWAY)
-//            .body("Gagal Memasukkan");
-//    }
-//    
-//    @PutMapping("")
-//    public boolean update(@RequestBody Person person){
-//        return service.update(person);
-//    }
-//    
-//    @DeleteMapping("{id}")
-//    public boolean tesDelete(@PathVariable String id){
-//        return service.delete(id);
-//    }
-//    
-//    
-//    @ResponseBody
-//    @GetMapping("saves")
-//    public String simpanSemua(){
-//        service.saveAll();
-//        return "Simpan berhasil";
-//    }
-//    
-    
-//    @GetMapping("Sendmail")
-//    public boolean kirimEmail(){
-//        
-//        try {
-//           mailservices.sendSimpleMessage("aqira.kelana@gmail.com", "Hello, Iqwal Akmar", "Iqwal Akmar Email");
-//            System.out.println("Test Email Ka Aqira");
-//           return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    
-//    }
-
 @Controller
 public class PersonController {
-  PersonServices service;
-  
-  @Autowired
-  public PersonController(PersonServices service) {
-    this.service = service;
-  }
-  
-  @GetMapping({""})
-  public String index() {
-    System.out.println(this.service.getAll());
-    return "index";
-  }
-  
-//  @ResponseBody
-//  @GetMapping({"update"})
-//  public boolean update() {
-//    Person person = new Person();
-//    person.setId("P001");
-//    person.setAge(Integer.valueOf(23));
-//    person.setGender("Male");
-//    return this.service.update(person);
-//  }
-  
-  @ResponseBody
-  @GetMapping({"insert"})
-  public String tesInsert() {
-    Person person = new Person();
-    person.setId("P001");
-    person.setName("Aqira Kelana");
-    person.setEmail("aqira.kelana@gmail.com");
-    person.setAge(Integer.valueOf(23));
-    return this.service.save(person);
-  }
+    
+    PersonService service;
+    EmailServiceImpl emailService;
+
+    @Autowired
+    public PersonController(PersonService service, EmailServiceImpl emailService) {
+        this.service = service;
+        this.emailService = emailService;
+    }
+    
+//    @ResponseBody
+//    @GetMapping("")
+//    public void index(){
+////        return service.getAll().toString();
+////        return "index";
+//    }
+    
+    @ResponseBody
+    @GetMapping("dummy")
+    public String dataDummy(){
+//        service.saveAll();
+        try {
+            Person person = new Person("P01", "test", "test@email.com", "MALE", 0);
+            service.save(person);
+            System.out.println("method2");
+             return "Berhasil save data dummy2";
+        } catch (RuntimeException e) {
+            return "Exception: "+e.getMessage();
+        }
+        
+       
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "data",method = RequestMethod.GET)
+    public String printData(@RequestParam("key") String key){
+        return service.searchPerson(key).toString();
+    }
+    
+//    @ResponseBody
+//    @GetMapping("email")
+//    public String sendEmail(){
+//        try {
+//            Person person = service.getById("P001").get();
+//            return "berhasil "+person.getName();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "gagal";
+//        }
+//    }
+    
+    
+    
 }

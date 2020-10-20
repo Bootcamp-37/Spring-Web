@@ -9,12 +9,10 @@ import lombok.Data;
 
 /**
  *
- * @author Deo Lahara
+ * @author User
  */
-
 @Data
 public class Person {
-    private String id, name, email,gender;
+    private String id, name, email, gender;
     private int age;
-    
 }

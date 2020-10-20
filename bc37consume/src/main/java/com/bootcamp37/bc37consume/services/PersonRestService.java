@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.bootcamp37.bc37consume.services;
+
 import com.bootcamp37.bc37consume.entities.Person;
 import java.util.HashMap;
 import java.util.List;
@@ -16,20 +17,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ *
+ * @author User
+ */
 @Service
 public class PersonRestService {
-  @Value("${api.uri}")
-  private String uri;
-  
-  private String url = "http://localhost:8085/api/";
-  
-  private RestTemplate restTemplate;
-  
-  @Autowired
-  public PersonRestService(RestTemplate restTemplate) {
-    this.restTemplate = restTemplate;
-  }
-  
+    
+    @Value("${api.uri}")
+    private String uri;
+    
+    RestTemplate restTemplate;
+
+    @Autowired
+    public PersonRestService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+    
     public List<Person>getAll(){
         ResponseEntity<List<Person>> response = restTemplate.exchange(
             uri,
@@ -39,31 +43,48 @@ public class PersonRestService {
         List<Person> result = response.getBody();
         return result;
     }
-  
-  public Person getById(String id) {
-    Map<String, String> param = new HashMap<>();
-    param.put("id", id);
-    Person result = (Person)this.restTemplate.getForObject(this.uri + "/{id}", Person.class, param);
-    return result;
-  }
-  
-  public void save(Person person) {
-    Person result = (Person)this.restTemplate.postForObject(this.uri, person, Person.class, new Object[0]);
-  }
-  
-    public void delete (String id){
+    
+    public Person getById(String id){
+        Map<String, String> param = new HashMap<>();
+        param.put("id", id);  
+        try {
+            Person result = restTemplate.getForObject(uri + "/{id}", Person.class, param);
+            return result;
+        } catch (Exception e) {
+            return null;
+        }    
+    }
+    
+    public String save(Person person){
+        if (getById(person.getId()) != null) {
+            restTemplate.put(uri, person, Person.class);
+            return "update";
+        }else{
+            Person result = restTemplate.postForObject(uri, person, Person.class);
+            if (result == null) {
+                return "error";
+            }
+            return "insert";
+        }
+        
+    }
+    
+    public void update(Person person){
+        Map<String , Object> params = new HashMap<>();
+        params.put("id", person.getId());
+        params.put("name", person.getName());
+        params.put("email", person.getEmail());
+        params.put("gender", person.getGender());
+        params.put("age", person.getAge());
+        
+        restTemplate.put(uri, params);
+    }
+    
+    public void delete(String id){
         Map<String, String> param = new HashMap<>();
         param.put("id", id);
-        restTemplate.delete(uri+"/{id}", param);
+        
+        restTemplate.delete(uri+"/{id}",param);
     }
-  
-  public void update(Person person) {
-    Map<String, Object> params = new HashMap<>();
-    params.put("id", person.getId());
-    params.put("name", person.getName());
-    params.put("email", person.getEmail());
-    params.put("gender", person.getGender());
-    params.put("age", Integer.valueOf(person.getAge()));
-    this.restTemplate.put(this.uri, params, new Object[0]);
-  }
+    
 }

@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Deo Lahara
+ * @author User
  */
 @Entity
 @Table(name = "person")
@@ -26,10 +26,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p")
     , @NamedQuery(name = "Person.findById", query = "SELECT p FROM Person p WHERE p.id = :id")
     , @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name")
-    , @NamedQuery(name = "Person.findByAge", query = "SELECT p FROM Person p WHERE p.age = :age")
-    , @NamedQuery(name = "Person.findByGender", query = "SELECT p FROM Person p WHERE p.gender = :gender")
-    , @NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.email = :email")})
+    , @NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.email = :email")
+    , @NamedQuery(name = "Person.findByGender", query = "SELECT p FROM Person p WHERE p.gender = :gender")})
 public class Person implements Serializable {
+
+    @Column(name = "age")
+    private Integer age;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,27 +40,36 @@ public class Person implements Serializable {
     private String id;
     @Column(name = "name")
     private String name;
-    @Column(name = "age")
-    private Integer age;
-    @Column(name = "gender")
-    private String gender;
     @Column(name = "email")
     private String email;
+    @Column(name = "gender")
+    private String gender;
 
     public Person() {
-    }
-
-    public Person(String id, String name, Integer age, String gender, String email) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.email = email;
     }
 
     public Person(String id) {
         this.id = id;
     }
+
+    public Person(String id, String name, String email, String gender) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+    }
+
+    public Person(String id, String name, String email, String gender,Integer age) {
+        this.age = age;
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+    }
+    
+    
+    
+    
 
     public String getId() {
         return id;
@@ -76,12 +87,12 @@ public class Person implements Serializable {
         this.name = name;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getGender() {
@@ -90,14 +101,6 @@ public class Person implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @Override
@@ -122,7 +125,15 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "id = "+id+" "+"name = "+name+" "+"gender = "+gender+" "+" age = "+age+" "+"email "+email;
+        return "ID: "+getId()+", Name: "+ getName()+", Email: "+getEmail()+", Gender: "+getGender()+", Age: "+getAge();
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
     
 }

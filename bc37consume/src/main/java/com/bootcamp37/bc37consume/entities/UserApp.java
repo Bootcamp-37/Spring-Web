@@ -7,10 +7,8 @@ package com.bootcamp37.bc37consume.entities;
 
 /**
  *
- * @author Deo Lahara
+ * @author User
  */
-
-
 public class UserApp {
     private final int id;
     private final String name;
@@ -26,6 +24,6 @@ public class UserApp {
 
     public String getName() {
         return name;
-    }
+    }           
     
 }

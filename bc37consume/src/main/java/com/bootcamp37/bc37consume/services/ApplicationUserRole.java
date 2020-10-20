@@ -7,8 +7,8 @@ package com.bootcamp37.bc37consume.services;
 
 /**
  *
- * @author Deo Lahara
+ * @author User
  */
 public enum ApplicationUserRole {
-        KARYAWAN, ADMIN, TRAINER
+    KARYAWAN, ADMIN, TRAINER
 }

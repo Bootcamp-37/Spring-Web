@@ -10,16 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  *
- * @author Deo Lahara
+ * @author User
  */
-
-@Controller
+//@Controller
 public class Sb2AdminController {
-    
-    @GetMapping("/tables")
-    public String index(){
-        return "tables";
-    
-    }
-    
+
+//    @GetMapping("/tables")
+//    public String index(){
+//        return "/sb2Admin/tables";
+//    }
 }

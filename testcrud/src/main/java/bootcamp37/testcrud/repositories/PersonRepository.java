@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bootcamp37.testcrud.repositories;
+package bootcamp37.testcrud.Repositories;
 
 import bootcamp37.testcrud.entities.Person;
 import java.util.List;
@@ -13,15 +13,9 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author Deo Lahara
+ * @author User
  */
-
 @Repository
-public interface PersonRepository extends JpaRepository<Person, String>{
-    @Query("SELECT p FROM Person p WHERE p.name like %?1%"
-            + "or p.id like %?1%"
-            + "or p.age like %?1%"
-            + "or p.email like %?1%"
-            + "or p.gender like %?1%")
-    public List<Person> search (String keyword);
+public interface PersonRepository extends JpaRepository<Person, String> {
+    List<Person> findByNameContainingOrGenderContainingOrEmailContainingOrIdContaining(String name, String gender, String email, String id);
 }

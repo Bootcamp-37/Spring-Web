@@ -1,39 +1,44 @@
 <div th:fragment="save-modal">
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" align="left">
+    <div class="modal fade" id="modalSave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" align="left">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Save</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="saveForm" th:action ="@{/save}" th:object="${person}" method='POST'>
-                    <!--FormModals-->
+                <form id="saveForm" th:object="${person}">
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Id</label>
-                        <input type="text" class="form-control" id="textId" value="" th:field="*{id}" />
-                        
+                      <input type="text" id="textId" class ="form-control" th:field="*{id}"  required>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Name</label>
-                        <input type="text" class="form-control" id="textName" value="" th:field="*{name}" />
-
+                        <input type="text" id="textName" class ="form-control" th:field="*{name}"  required>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1">Email</label>
-                        <input type="text" class="form-control" id="textEmail" value="" th:field="*{email}" />
-                        
-                        <label for="exampleInputEmail1">Gender</label>
-                        <select class="custom-select" id="optionGender" aria-label="Example select with button addon" th:field="*{gender}">
-                            <option value="">Choose...</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                        <input type="text" id="textEmail" class ="form-control" th:field="*{email}"  required>
+                    </div>    
+                    <label>Gender</label>
+                    <div class="input-group">
+                        <select class="custom-select" id="optionGender" th:field="*{gender}">
+                            <option selected value="">Choose...</option>
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
                         </select>
-                        
-                        <label for="exampleInputEmail1">Age</label> 
-                        <input type="number" class="form-control" id="textAge" value=""  th:field="*{age}" ></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Age</label>
+                        <input type="number" id="textAge" class="form-control" min="1" value="1" th:field="*{age}">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" form="saveForm" class="btn btn-primary" value="">Submit</button>
+              <button type="submit" class="btn btn-primary" onclick="saveData()" >Submit</button>
             </div>
           </div>
         </div>
